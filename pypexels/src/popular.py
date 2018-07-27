@@ -1,17 +1,7 @@
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: popular.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Handle Popular photo pages
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#
-###############################################################################
-# from .liblogging import logger
+from __future__ import absolute_import, unicode_literals
+
+from builtins import super
+
 from .errors import PexelsError
 from .models import Photo
 from .pexelspage import PexelsPage
@@ -26,7 +16,9 @@ class Popular(PexelsPage):
             raise PexelsError('Invalid _url for class Popular(): %s' % url)
 
         valid_options = ['page', 'per_page']
-        super(Popular, self).__init__(url=url, api_key=api_key, api_version=api_version, valid_options=valid_options, **kwargs)
+        super().__init__(
+            url=url, api_key=api_key, api_version=api_version,
+            valid_options=valid_options, **kwargs)
 
     @property
     def entries(self):

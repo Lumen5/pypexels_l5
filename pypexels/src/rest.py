@@ -1,17 +1,7 @@
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: rest.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Base REST API client class
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#
-###############################################################################
+from __future__ import absolute_import, unicode_literals
+
 from builtins import object
+
 import requests
 
 from .errors import PexelsError
@@ -68,9 +58,15 @@ class Rest(object):
         logger.debug('Wiring REST %s %s %s %s', method, req_url, query_params, data)
 
         try:
-            response = requests.request(method, req_url, params=query_params, data=data, headers=self.req_headers, **kwargs)
+            response = requests.request(
+                method,
+                req_url,
+                params=query_params,
+                data=data,
+                headers=self.req_headers,
+                **kwargs)
         except Exception as e:
-            raise PexelsError("Connection error: %s" % e)
+            raise PexelsError('Connection error: {}'.format(e))
 
         try:
             self._status_code = response.status_code
@@ -78,16 +74,33 @@ class Rest(object):
             self._body = response.json()
             if self._status_code != requests.codes.ok:
                 logger.error(
-                    'HTTP status %s: %s', self._status_code, self._body.get('errors', ['No error message'])
+                    'HTTP status {} {}'.format(
+                        self._status_code,
+                        self._body.get('errors', ['No error message']),
+                    ),
                 )
 
         except ValueError as e:
-            logger.error('EXCEPTION: %s', e)
-            if self._status_code != requests.codes.ok:
-                logger.error('HTTP EXC status %s: %s', self._status_code, response.text)
-            raise PexelsError("Exception: %s" % e)
+            logger.exception('Error in request')
 
-        logger.debug('REST rsp status %s body %s headers %s', self._status_code, self._body, self._headers)
+            if self._status_code != requests.codes.ok:
+                logger.error(
+                    'HTTP EXC status {}: {}'.format(
+                        self._status_code,
+                        response.text,
+                    ),
+                )
+
+            raise PexelsError('Exception: {}'.format(e))
+
+        logger.debug(
+            'REST rsp status {} body {} headers {}'.format(
+                self._status_code,
+                self._body,
+                self._headers,
+            ),
+        )
+
         return response
 
     def get(self, url, query_params=None):

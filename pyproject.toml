@@ -9,4 +9,4 @@ author = "Josh Klar"
 author-email = "josh@lumen5.com"
 home-page = "https://github.com/Lumen5/pypexels_l5"
 classifiers = ["License :: OSI Approved :: MIT License"]
-requires = ["requests~=2.19"]
+requires = ["requests~=2.19", "future"]

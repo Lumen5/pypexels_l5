@@ -1,23 +1,9 @@
-from __future__ import division
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: pexelspage.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Base class for Pexels API pages
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#            Any object exposes GET
-#               _url is optional; if none provided, the current _url is used.
-#               next, previous, last, first *might* be available and usable.
-#               Object itself has no memory.
-#               GET, next, previous, last, first return a new object
-#
-###############################################################################
+from __future__ import absolute_import, division, unicode_literals
+
+from builtins import super
+
 from past.utils import old_div
+
 from .errors import PexelsError
 from .liblogging import logger
 from .rest import Rest
@@ -25,12 +11,11 @@ from .settings import API_VERSION
 
 
 class PexelsPage(Rest):
-
     def __init__(self, url, api_key, api_version=API_VERSION, valid_options=None, **kwargs):
         if url is None:
             raise PexelsError('PexelsPage: _url cannot be None')
 
-        super(PexelsPage, self).__init__(api_key=api_key, api_version=api_version)
+        super().__init__(api_key=api_key, api_version=api_version)
         self._valid_options = valid_options
 
         self._url = self._sanitized_url(url)
@@ -86,24 +71,37 @@ class PexelsPage(Rest):
         return self.link_previous is not None
 
     def get_page(self, page):
-        url = '%s&per_page=%s&page=%s' % (self.nopaging_url, self.per_page, page)
+        url = '{}&per_page={}&page={}'.format(self.nopaging_url, self.per_page, page)
+
         return self.__class__(url=url, api_key=self.api_key, api_version=self.api_version)
 
     def get_next_page(self):
         if self.link_next:
-            return self.__class__(url=self.link_next, api_key=self.api_key, api_version=self.api_version)
+            return self.__class__(
+                url=self.link_next, api_key=self.api_key,
+                api_version=self.api_version,
+            )
 
     def get_previous_page(self):
         if self.link_previous:
-            return self.__class__(url=self.link_previous, api_key=self.api_key, api_version=self.api_version)
+            return self.__class__(
+                url=self.link_previous, api_key=self.api_key,
+                api_version=self.api_version,
+            )
 
     def get_first_page(self):
         if self.link_first:
-            return self.__class__(url=self.link_first, api_key=self.api_key, api_version=self.api_version)
+            return self.__class__(
+                url=self.link_first, api_key=self.api_key,
+                api_version=self.api_version,
+            )
 
     def get_last_page(self):
         if self.link_last:
-            return self.__class__(url=self.link_last, api_key=self.api_key, api_version=self.api_version)
+            return self.__class__(
+                url=self.link_last, api_key=self.api_key,
+                api_version=self.api_version,
+            )
 
     def _sanitized_query_parameters(self, kwargs):
         logger.debug('Call _sanitized_query_parameters(%s)', kwargs)
@@ -122,7 +120,11 @@ class PexelsPage(Rest):
         return query_params
 
     def _parse_navigation(self):
-        nopaging_query_parameters = ['{}={}'.format(k, v) for k, v in list(self._query_parameters.items()) if k not in ['page', 'per_page']]
+        nopaging_query_parameters = [
+            '{}={}'.format(k, v)
+            for k, v in self._query_parameters.items()
+            if k not in ('page', 'per_page')
+        ]
         self.nopaging_url = '?'.join([self._url, '&'.join(nopaging_query_parameters)])
         self.page = int(self.body.get('page', 1))
         self.per_page = int(self.body.get('per_page', 15))
@@ -130,10 +132,13 @@ class PexelsPage(Rest):
 
         self._navigation = {
             'self': self._url,
-            'first': '%s&per_page=%s&page=%s' % (self.nopaging_url, self.per_page, 1),
+            'first': '{}&per_page={}&page={}'.format(self.nopaging_url, self.per_page, 1),
             'prev': self.body.get('prev_page', None),
             'next': self.body.get('next_page', None),
-            'last': '%s&per_page=%s&page=%s' % (self.nopaging_url, self.per_page, old_div(self.total_results,self.per_page) + 1),
+            'last': '{}&per_page={}&page={}'.format(
+                self.nopaging_url, self.per_page,
+                old_div(self.total_results, self.per_page) + 1,
+            ),
         }
 
     def _ret_link(self, which):

@@ -1,21 +1,11 @@
-from __future__ import print_function
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: test_popular.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Unit Test for Popular()
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#
-###############################################################################
-from builtins import object
-import responses
+from __future__ import absolute_import, print_function
+
 import json
 import os
+from builtins import object
+
+import responses
+
 from pypexels import PyPexels
 from pypexels.src.settings import API_ROOT, API_VERSION
 
@@ -30,7 +20,12 @@ class TestPopular(object):
     root_path = os.environ.get('TRAVIS_BUILD_DIR', None) or os.getcwd()
 
     store_mapping = {
-        'popular': os.sep.join([root_path, 'tests', 'resources', 'resource__popular_per_page_5_page_2.json']),
+        'popular': os.sep.join([
+            root_path,
+            'tests',
+            'resources',
+            'resource__popular_per_page_5_page_2.json',
+        ]),
     }
 
     @responses.activate
@@ -41,7 +36,8 @@ class TestPopular(object):
 
         responses.add(
             responses.GET,
-            '{}/{}{}'.format(API_ROOT, API_VERSION, stored_response.get('_url')),   # _url contains only the short path like /popular?page=2&per_page=5
+            # _url contains only the short path like /popular?page=2&per_page=5
+            '{}/{}{}'.format(API_ROOT, API_VERSION, stored_response.get('_url')),
             json=stored_response.get('body'),
             status=stored_response.get('status_code'),
             content_type='application/json',

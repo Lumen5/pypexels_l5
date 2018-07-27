@@ -1,21 +1,11 @@
-from __future__ import print_function
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: test_search.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Unit Test for Search()
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#
-###############################################################################
-from builtins import object
-import responses
+from __future__ import print_function, unicode_literals
+
 import json
 import os
+from builtins import object
+
+import responses
+
 from pypexels import PyPexels
 from pypexels.src.settings import API_ROOT, API_VERSION
 
@@ -30,7 +20,12 @@ class TestSearch(object):
     root_path = os.environ.get('TRAVIS_BUILD_DIR', None) or os.getcwd()
 
     store_mapping = {
-        'redflower': os.sep.join([root_path, 'tests', 'resources', 'resource__search_per_page_5_page_2_query_red_flower.json']),
+        'redflower': os.sep.join([
+            root_path,
+            'tests',
+            'resources',
+            'resource__search_per_page_5_page_2_query_red_flower.json',
+        ]),
     }
 
     @responses.activate
@@ -41,13 +36,15 @@ class TestSearch(object):
 
         responses.add(
             responses.GET,
-            '{}/{}{}'.format(API_ROOT, API_VERSION, stored_response.get('_url')),   # _url contains only the short path like /popular?page=2&per_page=5
+            # _url contains only the short path like /popular?page=2&per_page=5
+            '{}/{}{}'.format(API_ROOT, API_VERSION, stored_response.get('_url')),
             json=stored_response.get('body'),
             status=stored_response.get('status_code'),
             content_type='application/json',
             adding_headers=stored_response.get('headers'),
             match_querystring=True,
         )
+
         py_pexels = PyPexels(api_key=api_key)
         search_results_page = py_pexels.search(query='red flower', page=2, per_page=5)
 
