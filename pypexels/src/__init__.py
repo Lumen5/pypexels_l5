@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+from .curated import Curated
 from .errors import PexelsError
 from .popular import Popular
 from .search import Search
