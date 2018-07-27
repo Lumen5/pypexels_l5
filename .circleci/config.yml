@@ -6,25 +6,25 @@ workflows:
             - test_py27:
                 filters:
                     tags:
-                        only: /^v?([0-9]+)\.([0-9]+)(?:(b)([0-9]+)?)?$/
+                        only: /.*/
             - test_py36:
                 filters:
                     tags:
-                        only: /^v?([0-9]+)\.([0-9]+)(?:(b)([0-9]+)?)?$/
+                        only: /.*/
             - test_py37:
                 filters:
                     tags:
-                        only: /^v?([0-9]+)\.([0-9]+)(?:(b)([0-9]+)?)?$/
+                        only: /.*/
             - test_pypy3:
                 filters:
                     tags:
-                        only: /^v?([0-9]+)\.([0-9]+)(?:(b)([0-9]+)?)?$/
+                        only: /.*/
             - publish:
                 filters:
                     branches:
                         ignore: /.*/
                     tags:
-                        only: /^v?([0-9]+)\.([0-9]+)(?:(b)([0-9]+)?)?$/
+                        only: /.*/
                 requires:
                     - test_py27
                     - test_py36
