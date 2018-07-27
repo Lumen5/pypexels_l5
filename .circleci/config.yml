@@ -70,6 +70,8 @@ jobs:
         docker:
             - image: python:3.7.0-alpine3.8
         steps:
+            - run: apk update
+            - run: apk install git ssh
             - checkout
             - run: pip install pipenv
             - run: pipenv --python $(which python) install --dev
