@@ -3,33 +3,16 @@ workflows:
     version: 2
     main:
         jobs:
-            - test_py27:
-                filters:
-                    tags:
-                        only: /.*/
-            - test_py36:
-                filters:
-                    tags:
-                        only: /.*/
-            - test_py37:
-                filters:
-                    tags:
-                        only: /.*/
-            - test_pypy3:
-                filters:
-                    tags:
-                        only: /.*/
+            - test_py27
+            - test_py36
+            - test_py37
+            - test_pypy3
             - publish:
                 filters:
                     branches:
                         ignore: /.*/
                     tags:
                         only: /.*/
-                requires:
-                    - test_py27
-                    - test_py36
-                    - test_py37
-                    - test_pypy3
 
 jobs:
     test_py27:
