@@ -1,4 +1,4 @@
-# PyPexels
+# pypexels\_l5
 
 An open source Python wrapper for the [Pexels REST
 API](https://www.pexels.com/api/), supporting Python 2.7 and 3.6+. This is
@@ -7,8 +7,8 @@ work](https://github.com/salvoventura/pypexels).
 
 ## Note
 
-When using this library you still need to abide to Pexels Guidelines,
-which are explained on [Pexels API page](https://www.pexels.com/api/)
+When using this library you still need to abide by Pexels guidelines,
+which are explained on [Pexels' API page](https://www.pexels.com/api/)
 
 # Examples
 
