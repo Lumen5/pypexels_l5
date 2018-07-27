@@ -1,21 +1,6 @@
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: pypexels.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Main PyPexels class
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#
-###############################################################################
-# from .src.liblogging import logger
 from builtins import object
-from .src import API_VERSION, LIB_NAME
-from .src import Popular
-from .src import Search
+
+from .src import API_VERSION, LIB_NAME, Popular, Search
 
 
 class PyPexels(object):
@@ -30,4 +15,3 @@ class PyPexels(object):
 
     def search(self, **kwargs):
         return Search(api_key=self.api_key, api_version=self.api_version, **kwargs)
-

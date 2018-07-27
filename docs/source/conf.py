@@ -12,6 +12,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+from __future__ import unicode_literals
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -40,9 +42,11 @@ extensions = [
 ]
 
 # autosummary_generate = False
-# Boolean indicating whether to scan all found documents for autosummary directives, and to generate stub pages for each.
-# Can also be a list of documents for which stub pages should be generated.
-# The new files will be placed in the directories specified in the :toctree: options of the directives.
+# Boolean indicating whether to scan all found documents for autosummary
+# directives, and to generate stub pages for each.  Can also be a list of
+# documents for which stub pages should be generated.  The new files will be
+# placed in the directories specified in the :toctree: options of the
+# directives.
 autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
@@ -322,8 +326,13 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'PyPexels', u'PyPexels Documentation',
-     [author], 1)
+    (
+        master_doc,
+        'PyPexels',
+        'PyPexels Documentation',
+        [author],
+        1,
+    ),
 ]
 
 # If true, show URL addresses after external links.

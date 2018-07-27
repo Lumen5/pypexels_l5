@@ -1,28 +1,22 @@
 from __future__ import print_function
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: resource_download.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Download and save resources for unit testing
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#
-###############################################################################
-from pypexels.src.settings import API_ROOT, API_VERSION
-import requests
-import os
+
 import json
+import os
+import re
 import time
+from builtins import str
+
+import requests
+
+from pypexels.src.settings import API_ROOT, API_VERSION
 
 api_key = os.environ.get('API_KEY', None) or 'DUMMY_API_KEY'
 
 req_headers = {
-    'Authorization': '%s' % api_key,
+    'Authorization': str(api_key),
 }
+
+filename_sub_regex = regex = re.compile(r'(/|\?|=|&|\+)')
 
 
 def _save_content(sub_url):
@@ -30,21 +24,29 @@ def _save_content(sub_url):
     r = requests.get(url=url, headers=req_headers)
 
     d_headers = dict(r.headers)
-    del d_headers["Content-Encoding"]   # if anything compressed, this will break responses: remove
-    del d_headers["Set-Cookie"]         # cookies will expire, breaking responses: remove
+    del d_headers['Content-Encoding']   # if anything compressed, this will break responses: remove
+    del d_headers['Set-Cookie']         # cookies will expire, breaking responses: remove
 
     out = {
         '_url': sub_url,
         'body': r.json(),
         'headers': d_headers,
         'status_code': r.status_code,
-        'last_update': time.ctime()
+        'last_update': time.ctime(),
     }
 
     # save to file
-    filename = sub_url.replace('/', '_').replace('?', '_').replace('=', '_').replace('&', '_').replace('+', '_')
+    filename = re.sub(filename_sub_regex, '_', sub_url)
+
     print(os.getcwd())
-    filepath = os.sep.join(['.', 'pypexels', 'tests', 'resources', 'resource_{}.json'.format(filename)])
+    filepath = os.sep.join([
+        '.',
+        'pypexels',
+        'tests',
+        'resources',
+        'resource_{}.json'.format(filename),
+    ])
+
     with open(filepath, 'w') as f:
         f.write(json.dumps(out))
 

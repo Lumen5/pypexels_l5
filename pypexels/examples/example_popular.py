@@ -1,20 +1,10 @@
-from __future__ import print_function
-###############################################################################
-#    Copyright (c) 2017 Salvatore Ventura <salvoventura@gmail.com>
-#
-#      File: example_popular.py
-#
-#    Author: Salvatore Ventura <salvoventura@gmail.com>
-#      Date: 27 Sep 2017
-#   Purpose: Exemplify usage of Popular
-#
-#  Revision: 1
-#   Comment: What's new in revision 1
-#
-###############################################################################
+from __future__ import print_function, unicode_literals
+
 import logging
 import os
+
 from pypexels import PyPexels
+
 api_key = os.environ.get('API_KEY', None) or 'DUMMY_API_KEY'
 
 
