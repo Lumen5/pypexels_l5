@@ -80,6 +80,8 @@ class Rest(object):
                     ),
                 )
 
+                response.raise_for_status()
+
         except ValueError as e:
             logger.exception('Error in request')
 

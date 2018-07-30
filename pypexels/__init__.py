@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from .pypexels import PyPexels
 
 __doc__ = 'A simple wrapper around the Pexels API'
-__version__ = '1.0.0b2'
+__version__ = '1.0.0b3'
 __authors__ = [
     'Josh Klar at Lumen5',
     'Salvatore Ventura <salvoventura@gmail.com>',
