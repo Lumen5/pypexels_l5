@@ -106,11 +106,17 @@ class PexelsPage(Rest):
     def _sanitized_query_parameters(self, kwargs):
         logger.debug('Call _sanitized_query_parameters(%s)', kwargs)
         query_params = {}
-        for key in kwargs:
+
+        for key, val in kwargs.items():
             if self._valid_options and key not in self._valid_options:
                 logger.debug('Invalid parameter %s, safely ignoring it', key)
                 continue
-            query_params[key] = kwargs[key]
+
+            if key == 'per_page' and val > 40:
+                raise ValueError('Cannot request more than 40 elements per page')
+
+            query_params[key] = val
+
         # add defaults for page and per_page
         if 'page' not in query_params:
             query_params['page'] = 1
